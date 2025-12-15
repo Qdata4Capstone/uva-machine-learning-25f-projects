@@ -6,7 +6,7 @@ A machine learning system that recommends mixable songs for DJs based on BPM, mu
 ## Project Structure
 
 ```
-team-x/
+team-28/
 ├── src/                    # All source code
 │   ├── main.py            # Main execution script
 │   ├── data_preprocessing.py
