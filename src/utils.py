@@ -12,22 +12,59 @@ def key_to_camelot(key, mode):
     """
     Convert Spotify key (0-11) and mode (0=minor, 1=major) to Camelot Wheel notation.
     
+    Uses proper Camelot Wheel mapping (not a simple offset).
+    
     Args:
         key: Integer 0-11 (C=0, C#=1, D=2, D#=3, E=4, F=5, F#=6, G=7, G#=8, A=9, A#=10, B=11)
         mode: Integer 0 (minor) or 1 (major)
     
     Returns:
-        String in Camelot notation (e.g., "8A", "9B")
+        String in Camelot notation (e.g., "8B", "8A")
     """
-    # Camelot Wheel mapping: Spotify key + 1 (C=1, C#=2, ..., B=12)
-    camelot_number = (key + 1) % 12
-    if camelot_number == 0:
-        camelot_number = 12
+    # Proper Camelot Wheel mapping lookup table
+    # Format: (key, mode) -> camelot_number
+    # Major keys (mode=1) map to B ring, Minor keys (mode=0) map to A ring
+    camelot_mapping = {
+        # Major keys (mode=1) -> B ring
+        (0, 1): (8, 'B'),   # C Major -> 8B
+        (1, 1): (3, 'B'),   # C# Major -> 3B
+        (2, 1): (10, 'B'),  # D Major -> 10B
+        (3, 1): (5, 'B'),   # D# Major -> 5B
+        (4, 1): (12, 'B'),  # E Major -> 12B
+        (5, 1): (7, 'B'),   # F Major -> 7B
+        (6, 1): (2, 'B'),   # F# Major -> 2B
+        (7, 1): (9, 'B'),   # G Major -> 9B
+        (8, 1): (4, 'B'),   # G# Major -> 4B
+        (9, 1): (11, 'B'),  # A Major -> 11B
+        (10, 1): (6, 'B'),  # A# Major -> 6B
+        (11, 1): (1, 'B'),  # B Major -> 1B
+        
+        # Minor keys (mode=0) -> A ring
+        (0, 0): (5, 'A'),   # C Minor -> 5A
+        (1, 0): (12, 'A'),  # C# Minor -> 12A
+        (2, 0): (7, 'A'),   # D Minor -> 7A
+        (3, 0): (2, 'A'),   # D# Minor -> 2A
+        (4, 0): (9, 'A'),  # E Minor -> 9A
+        (5, 0): (4, 'A'),   # F Minor -> 4A
+        (6, 0): (11, 'A'),  # F# Minor -> 11A
+        (7, 0): (6, 'A'),   # G Minor -> 6A
+        (8, 0): (1, 'A'),   # G# Minor -> 1A
+        (9, 0): (8, 'A'),   # A Minor -> 8A
+        (10, 0): (3, 'A'),  # A# Minor -> 3A
+        (11, 0): (10, 'A'), # B Minor -> 10A
+    }
     
-    # Mode: 0 (minor) -> B, 1 (major) -> A
-    camelot_letter = "A" if mode == 1 else "B"
+    # Ensure key is in valid range
+    key = int(key) % 12
+    mode = int(mode) % 2
     
-    return f"{camelot_number}{camelot_letter}"
+    # Look up in mapping table
+    if (key, mode) in camelot_mapping:
+        camelot_number, camelot_letter = camelot_mapping[(key, mode)]
+        return f"{camelot_number}{camelot_letter}"
+    else:
+        # Fallback (shouldn't happen with valid inputs)
+        return "1A"
 
 
 def get_compatible_keys(camelot_key):
