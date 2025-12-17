@@ -25,5 +25,5 @@ make_prediction.py <- if you have a pgn file and a model to make a prediction wi
 
 ## Video Code Run
 
-https://youtu.be/xIl71BIr0EI
+https://youtu.be/SgSRFI_cDYs
 
