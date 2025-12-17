@@ -8,23 +8,28 @@ import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
 import { useEffect, useMemo, useState } from "react";
 import { formatDate } from "@/lib/utils";
-import type { Item } from "@/lib/types"; 
+import type { Item } from "@/lib/types";
 import Link from "next/link";
 import { getCategoryImage } from "@/lib/categoryImages";
 
-const FLASK_API_URL = "http://127.0.0.1:5000"; 
+const FLASK_API_URL = "http://127.0.0.1:5000";
 
 export default function InventoryPage() {
   const [items, setItems] = useState<Item[]>([]);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<"in_fridge" | "removed">("in_fridge");
 
+  // get img source
+  function getDriveImageSrc(fileId: string) {
+    return `https://drive.google.com/uc?export=view&id=${fileId}`;
+  }
+
   // fetch inventory items from backend 
   async function load() {
     console.log(`Fetching items with status: ${status}`);
     try {
       const response = await fetch(`${FLASK_API_URL}/api/inventory`);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -36,28 +41,28 @@ export default function InventoryPage() {
       setItems([]);
     }
   }
-  
+
   // send patch request to edit item
   async function patchItem(itemId: string, updateData: Partial<Item>) {
     try {
-        const response = await fetch(`${FLASK_API_URL}/api/inventory/${itemId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updateData),
-        });
+      const response = await fetch(`${FLASK_API_URL}/api/inventory/${itemId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData),
+      });
 
-        if (!response.ok) {
-            const errorBody = await response.json();
-            throw new Error(`Update failed: ${response.status} - ${errorBody.error || errorBody.message}`);
-        }
-        
-        console.log(`Item ${itemId} updated successfully.`);
-        return true;
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(`Update failed: ${response.status} - ${errorBody.error || errorBody.message}`);
+      }
+
+      console.log(`Item ${itemId} updated successfully.`);
+      return true;
     } catch (error) {
-        console.error("Error updating item:", error);
-        return false;
+      console.error("Error updating item:", error);
+      return false;
     }
   }
 
@@ -67,27 +72,27 @@ export default function InventoryPage() {
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
     return items.filter(i =>
-      !s || i.name.toLowerCase().includes(s) || i.category?.toLowerCase().includes(s) 
+      !s || i.name.toLowerCase().includes(s) || i.category?.toLowerCase().includes(s)
     );
   }, [items, q]);
 
   async function editExpiry(item: Item) {
-    const val = window.prompt(`Enter expiration date (YYYY-MM-DD) for ${item.name}:`, item.expiresAt?.substring(0, 10) ?? "");
+    const val = window.prompt(`Enter expiration date (YYYY-MM-DD) for ${item.name}:`, item.expiration_date?.substring(0, 10) ?? "");
     if (!val) return;
-    
+
     // date validation
     const d = new Date(val);
     if (isNaN(d.getTime())) {
-        console.error("Invalid date entered.");
-        return;
+      console.error("Invalid date entered.");
+      return;
     }
-    
+
     const isoString = d.toISOString();
-    
+
     // call patch function
-    const success = await patchItem(item._id, { expiresAt: isoString });
+    const success = await patchItem(item._id, { expiration_date: isoString });
     if (success) {
-        load();
+      load();
     }
   }
 
@@ -95,7 +100,7 @@ export default function InventoryPage() {
     // call patch function
     const success = await patchItem(item._id, { status: "removed" });
     if (success) {
-        load();
+      load();
     }
   }
 
@@ -122,34 +127,42 @@ export default function InventoryPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {filtered.map((i) => (
             <Card key={i._id} className="p-3">
-            <Link href={`/inventory/${i._id}`} className="block">
-              <div className="flex gap-3">
-                <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden border flex items-center justify-center">
-                  {getCategoryImage(i.name) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={getCategoryImage(i.name)!}
-                      alt={i.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-[10px] text-gray-500 text-center px-1">
-                      No class image
-                    </span>
-                  )}
+              <Link href={`/inventory/${i._id}`} className="block">
+                <div className="flex gap-3">
+                  <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden border flex items-center justify-center relative">
+                    {i.image && i.image.file_id ? (
+                      <img
+                        src={getDriveImageSrc(i.image.file_id)}
+                        alt={i.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      getCategoryImage(i.name) ? (
+                        <img src={getCategoryImage(i.name)!} alt={i.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-[10px] text-gray-500 text-center px-1">
+                          No image
+                        </span>
+                      )
+                    )}
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="font-medium">{i.name}</div>
+                    <div className="text-xs text-gray-600 mt-1">
+                      Added: {formatDate(i.date_placed)}
+                    </div>
+                    <div className="text-sm mt-1 font-medium text-orange-700">
+                      Exp: {formatDate(i.expiration_date)}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <div className="font-medium">{i.name}</div>
-                  {/* Note: I added optional chaining ? to category since Item definition is not provided */}
-                  <div className="text-xs text-gray-600">{i.category} • conf {Math.round(i.confidence * 100)}%</div> 
-                  <div className="text-xs text-gray-600 mt-1">Added: {formatDate(i.createdAt)}</div>
-                  <div className="text-sm mt-1">Exp: {formatDate(i.expiresAt)}</div>
-                </div>
-              </div>
               </Link>
 
               <div className="mt-3 flex gap-2">
-                {/* Prevent default action of link by setting onClick on button */}
                 <Button variant="secondary" className="text-xs px-2 py-1" onClick={(e) => { e.preventDefault(); editExpiry(i); }}>
                   Edit expiry
                 </Button>
