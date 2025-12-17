@@ -1,4 +1,3 @@
-```
 # uva-machine-learning-25f-projects
 
 For those who haven't submitted your project code yet, please follow the instructions below to upload your work to the course repository.
@@ -33,4 +32,3 @@ Step 3: Upload your code
 - Push the changes to your fork
   - git push origin main
 - On GitHub, navigate to your fork and open a pull request via: Pull requests → New pull request
-```
