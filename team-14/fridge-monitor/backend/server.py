@@ -5,6 +5,7 @@ import os
 import time
 from datetime import datetime, timezone
 from dotenv import load_dotenv
+from bson import ObjectId
 
 # pytorch imports
 import torch
@@ -77,9 +78,14 @@ class CNN(nn.Module):
         return logits
 
 # load model
-model = torch.load(MODEL_PATH, map_location=DEVICE, weights_only=False)
-model.to(DEVICE)
-model.eval()
+try:
+    model = torch.load(MODEL_PATH, map_location=DEVICE, weights_only=False)
+    model.to(DEVICE)
+    model.eval()
+    print("Model loaded successfully")
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None
 
 # define transforms 
 transform = transforms.Compose([
@@ -197,10 +203,73 @@ def manual_add():
         "item": {"name": label}
     }), 200
 
+@app.route('/api/inventory/<item_id>', methods=['PATCH'])
+def update_inventory_item(item_id):
+    data = request.json
+    update_data = {}
+    if 'expiration_date' in data:
+        update_data['expiration_date'] = data['expiration_date']
+    if 'status' in data:
+        update_data['status'] = data['status']
+    
+    if update_data:
+        mydb = mongo_client[DB_NAME]
+        mycol = mydb[COL_NAME]
+        mycol.update_one({'_id': ObjectId(item_id)}, {'$set': update_data})
+    
+    return jsonify({"status": "success", "message": "Item updated"}), 200
+
 @app.route('/api/inventory', methods=['GET'])
 def list_inventory():
     items = query(mongo_client, DB_NAME, COL_NAME, {})
+    # Ensure all items have status
+    for item in items:
+        if 'status' not in item:
+            item['status'] = 'in_fridge'
     return jsonify(items), 200
+
+@app.route('/api/events', methods=['GET'])
+def list_events():
+    return jsonify([]), 200
+
+@app.route('/api/alerts', methods=['GET'])
+def list_alerts():
+    items = query(mongo_client, DB_NAME, COL_NAME, {})
+    now = datetime.now(timezone.utc)
+    out = []
+
+    for item in items:
+        if item.get('status') != 'in_fridge' or not item.get('expiration_date'):
+            continue
+
+        created = datetime.fromisoformat(item['date_placed'].replace('Z', '+00:00'))
+        expires = datetime.fromisoformat(item['expiration_date'].replace('Z', '+00:00'))
+
+        total = (expires - created).total_seconds()
+        used = (now - created).total_seconds()
+        pct = used / total if total > 0 else 0
+        days_left = (expires - now).total_seconds() / 86400
+
+        if 0.66 <= pct <= 0.75:
+            out.append({
+                'type': 'shelf_life',
+                'message': f"{item['name']} is ~{round(pct * 100)}% through shelf life",
+                'itemId': str(item['_id'])
+            })
+        if 0 <= days_left <= 1.1:
+            out.append({
+                'type': 'one_day',
+                'message': f"{item['name']} expires in ~1 day",
+                'itemId': str(item['_id'])
+            })
+        if days_left < 0:
+            out.append({
+                'type': 'expired',
+                'message': f"{item['name']} has expired",
+                'itemId': str(item['_id'])
+            })
+
+    return jsonify(out), 200
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
