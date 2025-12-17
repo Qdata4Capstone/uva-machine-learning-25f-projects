@@ -141,6 +141,11 @@ See `doc/QUICKSTART.md` for detailed usage instructions and troubleshooting.
 - matplotlib >= 3.5.0
 - seaborn >= 0.12.0
 
+
+## Youtube Video Demonstration: 
+
+https://www.youtube.com/watch?v=X2zmxph66xg&feature=youtu.be
+
 ## License
 
 This project is for educational purposes as part of UVA CS 4774.
