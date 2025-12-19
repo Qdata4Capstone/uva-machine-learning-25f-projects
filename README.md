@@ -11,40 +11,39 @@
 ---
 
 ### Index of the students' team projects:  
-| Index | Keywords |
-|-------|----------|
-| t01 | ML_Anomaly |
-| t02 | ML_YoloTrash |
-| t03 | ML_gradCam |
-| t04 | ML_soccerplayer |
-| t05 | Human-In-the-LoopRL-ImageSynth |
-| t06 | DiabetesForecasting |
-| t07 | Local-RAG-Vector-Search-System |
-| t08 | Autodifferentiation |
-| t09 | ChessElo |
-| t10 | MarketMinds-Headlines-to-Returns |
-| t11 | FairCreditPredictionML |
-| t12 | ML_major-news |
-| t13 | CSMedicalImage |
-| t14 | InventoryMonitor |
-| t15 | ML-skinI |
-| t16 | CreditCardFraud |
-| t17 | CSAIassistant |
-| t18 | MicroProgram |
-| t19 | canvasGPT |
-| t20 | FraudulentAccount |
-| t21 | ML_Image_Colorization_Presentation |
-| t22 | SA-musicians |
-| t23 | ML_EngineFailure |
-| t24 | StockPrice |
-| t25 | DrunkDriver |
-| t26 | MLBrain_tumor |
-| t27 | ETF-risk |
-| t28 | DJ_Mixing_Recommendation_Final |
-| t29 | When_Does_ML_Fail_Presentation |
-| t30 | Mushroom |
-| t31 | ML-outfit |
-
+| Index | Keywords | Video |
+|-------|----------|-------|
+| t01 | ML_Anomaly | [link](https://youtu.be/lEvAmGlhEuE) |
+| t02 | ML_YoloTrash | [link1](https://youtu.be/L-Bif0_NOkU),[link2](https://youtu.be/L-Bif0_NOkU) |
+| t03 | ML_gradCam |  |
+| t04 | ML_soccerplayer | [link](https://youtu.be/kHUYCva1sxY) |
+| t05 | Human-In-the-LoopRL-ImageSynth | [link](https://drive.google.com/file/d/1ztj9GcXTr1e4RqEcebv-Fzs70U8VtJij/view?usp=drive_link) |
+| t06 | DiabetesForecasting | [link](https://youtu.be/4sVgWTkxrcI) |
+| t07 | Local-RAG-Vector-Search-System | [link](https://www.youtube.com/watch?v=N8b3yETTTbA) |
+| t08 | Autodifferentiation | [link](https://youtu.be/1IJK0WWCo3E) |
+| t09 | ChessElo | [link](https://youtu.be/SgSRFI_cDYs) |
+| t10 | MarketMinds-Headlines-to-Returns | [link](https://youtu.be/iN-jLGnTcNQ) |
+| t11 | FairCreditPredictionML |  |
+| t12 | ML_major-news |  |
+| t13 | CSMedicalImage |  |
+| t14 | InventoryMonitor | [link](https://www.youtube.com/watch?v=TyAtKc9BPjs) |
+| t15 | ML-skinI | [link](https://youtu.be/dWKxdcSMWO4) |
+| t16 | CreditCardFraud | [link](youtube.com/watch?v=O41fVjY96qk&feature=youtu.be) |
+| t17 | CSAIassistant | [link](https://youtu.be/IAYtRCeQ7_s) |
+| t18 | MicroProgram |  |
+| t19 | canvasGPT | [link](https://www.youtube.com/watch?v=IBh6QZ9l06A) |
+| t20 | FraudulentAccount | [link](https://youtu.be/lVr0j_KLIIk) |
+| t21 | ML_Image_Colorization_Presentation | [link](https://myuva-my.sharepoint.com/:p:/g/personal/utw5es_virginia_edu/IQBKualfcb7LSYgeoj0j1Ww0ARdaqcZu8mnCsosx3DE0vdI?e=xObXdm) |
+| t22 | SA-musicians | [link1](https://youtu.be/75aeonsjKK0),[link2](https://youtu.be/ZwsHOmrfXFE),[link3](https://youtu.be/l7HYH53H9nw),[link4](https://youtu.be/GlcwNCH_gfM),[link5](https://youtu.be/BruqunChwj8) |
+| t23 | ML_EngineFailure | [link](https://www.youtube.com/watch?v=jBvGLsg9_vc) |
+| t24 | StockPrice | [link](https://drive.google.com/file/d/1_knZ4cJ5R_VtIu8JD36ALOirAj8IVv1H/view?usp=sharing) |
+| t25 | DrunkDriver |  |
+| t26 | MLBrain_tumor |  |
+| t27 | ETF-risk | [link](https://youtu.be/KxbXr0T0Rvw) |
+| t28 | DJ_Mixing_Recommendation_Final | [link](https://www.youtube.com/watch?v=X2zmxph66xg&feature=youtu.be) |
+| t29 | When_Does_ML_Fail_Presentation |  |
+| t30 | Mushroom | [link](https://youtu.be/5bpg49MUFBY) |
+| t31 | ML-outfit |  |
 
 
 ### Guide to students: How to PR? 
