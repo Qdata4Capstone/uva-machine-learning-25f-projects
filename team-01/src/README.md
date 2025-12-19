@@ -9,3 +9,5 @@ Overview: Being able to detect anomalies in energy consumption can save costs an
 Usage: Download the python notebook and open in Google Collab. Save data and change file location accordingly. Click run all at the top of the screen. 
 
 Data: Can be downloaded from data folder and file, but also can be retrieved from https://www.kaggle.com/competitions/energy-anomaly-detection/data 
+
+Youtube Video Presentation and Code Walkthrough: https://youtu.be/lEvAmGlhEuE 
