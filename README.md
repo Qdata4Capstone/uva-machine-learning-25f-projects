@@ -2,15 +2,19 @@
 
 ---
 
-## Related: Students' projects from this course's past offering in 2020 and 2019
+## Related: Students' projects codebase from this course's past offerings in 2020 and 2019
 - [machine-learning-uva2019-students-deep2reproduce/](https://github.com/Qdata4Capstone/machine-learning-uva19-students-deep2reproduce/)
 - [machine-learning-uva2020-students-ml for good use](https://github.com/Qdata4Capstone/machine-learning20f-learning4good-projects)
 
-## The course website : [https://qiyanjun.github.io/2025Fall-UVA-CS-MachineLearningDeep/](https://qiyanjun.github.io/2025Fall-UVA-CS-MachineLearningDeep/)
+## The course website: [https://qiyanjun.github.io/2025Fall-UVA-CS-MachineLearningDeep/](https://qiyanjun.github.io/2025Fall-UVA-CS-MachineLearningDeep/)
 
 ---
 
 ### Index of the students' team projects:  
+
+As a class, Students built everything from AI systems for medical image analysis and financial fraud detection to local LLM-powered assistants, trash-sorting computer vision models, DJ song-mixing recommenders, chess rating predictors, and even outfit recommendation apps. 
+
+
 
 #### Healthcare & Medical AI
 
